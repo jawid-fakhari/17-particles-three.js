@@ -18,6 +18,7 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
+const particleTexture = textureLoader.load("/textures/particles/2.png");
 
 /******************************************
  * Particles
@@ -26,25 +27,35 @@ const textureLoader = new THREE.TextureLoader();
 //Geometry
 const particlesGeometry = new THREE.BufferGeometry(1, 32, 32);
 //quantità delle particelle
-const count = 500;
+const count = 5000;
 //creare un array Float 32
 const positions = new Float32Array(count * 3);
 //randomize postion
 for (let i = 0; i < count * 3; i++) {
-  positions[i] = Math.random();
+  positions[i] = (Math.random() - 0.5) * 10;
 }
-//set position 
+//set position
 particlesGeometry.setAttribute(
   "position",
   new THREE.BufferAttribute(positions, 3)
 );
 
-//MAterial
+//Material
 const particlesMaterial = new THREE.PointsMaterial({
   //dimensione del particles
-  size: 0.02,
+  size: 0.1,
   //specifica che i paricles più lontani sono più piccoli di quelli più vcini
   sizeAttenuation: true,
+  color: 0xff88cc,
+  //per fare trasparente i particelli
+  transparent: true,
+  alphaMap: particleTexture,
+  //alpha test porta a una buona trasparenza ma non completamente
+  //   alphaTest: 0.01,
+  //depth test porta a 100% di trasparenza ma attenzione se hai altre geometrie
+  //   depthTest: false,
+  //depth write porta al 100% di trasparenza
+  depthWrite: false,
 });
 
 //Points
