@@ -18,7 +18,7 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
-const particleTexture = textureLoader.load("/textures/particles/2.png");
+const particleTexture = textureLoader.load("/textures/particles/9.png");
 
 /******************************************
  * Particles
@@ -42,10 +42,7 @@ particlesGeometry.setAttribute(
   new THREE.BufferAttribute(positions, 3)
 );
 
-particlesGeometry.setAttribute(
-  "color",
-  new THREE.BufferAttribute(colors, 3)
-);
+particlesGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
 //Material
 const particlesMaterial = new THREE.PointsMaterial({
@@ -53,7 +50,7 @@ const particlesMaterial = new THREE.PointsMaterial({
   size: 0.1,
   //specifica che i paricles più lontani sono più piccoli di quelli più vcini
   sizeAttenuation: true,
-//   color: 0xff88cc,
+  //   color: 0xff88cc,
   //per fare trasparente i particelli
   transparent: true,
   alphaMap: particleTexture,
@@ -65,7 +62,7 @@ const particlesMaterial = new THREE.PointsMaterial({
   depthWrite: false,
   //Blending, i pixels sovrapposti avranno saturazione e sembra di aumentare la luce di di quei pixel e crea un effetto glowing come nel mondo reale quando posizioniamo diversi luci uno sul altro
   blending: THREE.AdditiveBlending,
-  vertexColors: true
+  vertexColors: true,
 });
 
 //Points
@@ -128,6 +125,18 @@ const clock = new THREE.Clock();
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
+  //update particles
+  for (let i = 0; i < count; i++) {
+    const i3 = i * 3;
+    //la posizione del x
+    const z = particlesGeometry.attributes.position.array[i3 + 2];
+    const x = particlesGeometry.attributes.position.array[i3 + 0];
+    //prendere la posizione del y
+    particlesGeometry.attributes.position.array[i3 + 1] = -Math.sin(elapsedTime + z) * 0.2;
+    particlesGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime +x) * 0.2;
+  }
+  //fuori ciclo dobbiamo dire che la posizione deve essere aggiornato
+  particlesGeometry.attributes.position.needsUpdate = true;
   // Update controls
   controls.update();
 
