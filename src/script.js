@@ -22,8 +22,22 @@ const textureLoader = new THREE.TextureLoader();
 /******************************************
  * Particles
  */
+//Custimize Particles
 //Geometry
-const particlesGeometry = new THREE.SphereGeometry(1, 32, 32);
+const particlesGeometry = new THREE.BufferGeometry(1, 32, 32);
+//quantità delle particelle
+const count = 500;
+//creare un array Float 32
+const positions = new Float32Array(count * 3);
+//randomize postion
+for (let i = 0; i < count * 3; i++) {
+  positions[i] = Math.random();
+}
+//set position 
+particlesGeometry.setAttribute(
+  "position",
+  new THREE.BufferAttribute(positions, 3)
+);
 
 //MAterial
 const particlesMaterial = new THREE.PointsMaterial({
