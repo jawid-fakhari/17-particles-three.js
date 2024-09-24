@@ -27,7 +27,7 @@ const particleTexture = textureLoader.load("/textures/particles/2.png");
 //Geometry
 const particlesGeometry = new THREE.BufferGeometry(1, 32, 32);
 //quantità delle particelle
-const count = 5000;
+const count = 20000;
 //creare un array Float 32
 const positions = new Float32Array(count * 3);
 //randomize postion
@@ -56,6 +56,8 @@ const particlesMaterial = new THREE.PointsMaterial({
   //   depthTest: false,
   //depth write porta al 100% di trasparenza
   depthWrite: false,
+  //Blending, i pixels sovrapposti avranno saturazione e sembra di aumentare la luce di di quei pixel e crea un effetto glowing come nel mondo reale quando posizioniamo diversi luci uno sul altro
+  blending: THREE.AdditiveBlending,
 });
 
 //Points
