@@ -30,14 +30,21 @@ const particlesGeometry = new THREE.BufferGeometry(1, 32, 32);
 const count = 20000;
 //creare un array Float 32
 const positions = new Float32Array(count * 3);
+const colors = new Float32Array(count * 3);
 //randomize postion
 for (let i = 0; i < count * 3; i++) {
   positions[i] = (Math.random() - 0.5) * 10;
+  colors[i] = Math.random();
 }
 //set position
 particlesGeometry.setAttribute(
   "position",
   new THREE.BufferAttribute(positions, 3)
+);
+
+particlesGeometry.setAttribute(
+  "color",
+  new THREE.BufferAttribute(colors, 3)
 );
 
 //Material
@@ -46,7 +53,7 @@ const particlesMaterial = new THREE.PointsMaterial({
   size: 0.1,
   //specifica che i paricles più lontani sono più piccoli di quelli più vcini
   sizeAttenuation: true,
-  color: 0xff88cc,
+//   color: 0xff88cc,
   //per fare trasparente i particelli
   transparent: true,
   alphaMap: particleTexture,
@@ -58,6 +65,7 @@ const particlesMaterial = new THREE.PointsMaterial({
   depthWrite: false,
   //Blending, i pixels sovrapposti avranno saturazione e sembra di aumentare la luce di di quei pixel e crea un effetto glowing come nel mondo reale quando posizioniamo diversi luci uno sul altro
   blending: THREE.AdditiveBlending,
+  vertexColors: true
 });
 
 //Points
